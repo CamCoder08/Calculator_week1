@@ -1,44 +1,46 @@
 import UIKit
 
-class Caculate {
-    func getAdd(a: Double, b: Double) -> Double {
+class Caculator {
+    func add(a: Int, b: Int) -> Int {
         return a + b
     }
-
-    func getMinus(a: Double, b: Double) -> Double {
+    func minus(a: Int, b: Int) -> Int {
         return a - b
     }
 
-    func getMultiply(a: Double, b: Double) -> Double {
+    func multiply(a: Int, b: Int) -> Int {
         return a * b
     }
 
-    func getDivide(a: Double, b: Double) -> Double {
-        if b == 0 { // 두 번째 숫자(b)가 0일 경우 예외 처리
-            print("Error: 0으로 나눌 수 없습니다.")
-            return 0
+    func divide(a: Int, b: Int) -> String { // (결과를 String으로 반환하여 명확한 예외처리 메시지 전달)
+        if (a == 0 && b == 0) || b == 0 {  // 나누는 수(b)가 0일 경우 예외처리 (0 나누기 불가능)
+            return "Error 0 입력 오류" // 예외 처리 시 오류메시지를 문자열로 반환
+        } else {
+            return "\(a / b)" // 정상적 계산 후 결과를 문자열로 변환하여 반환 (문자열 보간법 "\()" 사용)
         }
-        return a / b
     }
 
-    func getRemainder(a: Double, b: Double) -> Double { // Double형으로 나머지를 계산 (Double형에서는 % 연산자 사용 불가능)
-        if b == 0 {
-            print("Error: 나머지 연산에서 0으로 나눌 수 없습니다.") // 예외 처리
-            return 0
+    func remainder(a: Int, b: Int) -> String {
+        if (a == 0 && b == 0) || b == 0 {
+            return "Error: 0 입력 오류"
+        } else {
+            return "\(a % b)"
         }
-        return a.truncatingRemainder(dividingBy: b)
-    }  // truncatingRemainder 메서드로 Double 타입 나머지 연산 수행
+    }
+
 }
+// 인스턴스를 곧바로 result에 저장
+let resultAdd = Caculator().add(a: 8, b: 2)
+print("Add: \(resultAdd)")
 
-let caculate = Caculate()
+let resultMinus = Caculator().minus(a: 12, b: 2)
+print("Minus: \(resultMinus)")
 
-let getAddResult = caculate.getAdd(a: 2, b: 5)
-print("Add Result: \(getAddResult)")
-let getMinusResult = caculate.getMinus(a: 10, b: 5)
-print("Minus Result: \(getMinusResult)")
-let getMultiplyResult = caculate.getMultiply(a: 3, b: 6)
-print("Multiply Result: \(getMultiplyResult)")
-let getDivideResult = caculate.getDivide(a: 8, b: 0) // 0 나누기 예외 처리 확인
-print("Divide Result: \(getDivideResult)")
-let getRemainderResult = caculate.getRemainder(a: 4, b: 0) // 0 나머지 연산 예외 처리 확인
-print("Remainder Result: \(getRemainderResult)")
+let resultMultiply = Caculator().multiply(a: 2, b: 5)
+print("Multiply: \(resultMultiply)")
+
+let resultDivide = Caculator().divide(a: 20, b: 2)
+print("Divide: \(resultDivide)")
+
+let resultRemainder = Caculator().remainder(a: 10, b: 5)
+print("Remainder: \(resultRemainder)")
