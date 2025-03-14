@@ -1,51 +1,44 @@
 import UIKit
 
-class Calculator {
-    func calculate(op: String, firstNumber: Double, secondNumber: Double) -> Double {
-        switch op { // if-else 대신 연산자 비교를 switch-case 구문으로 변경
-        case "+":
-            let result = firstNumber + secondNumber
-            print(result)
-            return result
-        case "-":
-            let result = firstNumber - secondNumber
-            print(result)
-            return result
-        case "*":
-            let result = firstNumber * secondNumber
-            print(result)
-            return result
-        case "/":
-            if secondNumber == 0 { // 두 번째 숫자가 0인 경우 나누기 예외 처리
-                print("Error: 0으로 나눌 수 없습니다")
-                return 0
-            }
-            let result = firstNumber / secondNumber // 정상적 나누기 연산
-            print(result)
-            return result
-        case "%":
-            if secondNumber == 0 { // 나머지 연산 시 0 나누기 예외 처리
-                print("Error: 나머지 연산에서 0으로 나눌 수 없습니다.")
-                return 0 // 기본값 0 반환
-            }
-            let result = firstNumber.truncatingRemainder(dividingBy: secondNumber)
-            print(result)
-            return result
-        default:
-            print("Error: 잘못된 연산자입니다.")
+class Caculate {
+    func getAdd(a: Double, b: Double) -> Double {
+        return a + b
+    }
+
+    func getMinus(a: Double, b: Double) -> Double {
+        return a - b
+    }
+
+    func getMultiply(a: Double, b: Double) -> Double {
+        return a * b
+    }
+
+    func getDivide(a: Double, b: Double) -> Double {
+        if b == 0 { // 두 번째 숫자(b)가 0일 경우 예외 처리
+            print("Error: 0으로 나눌 수 없습니다.")
             return 0
         }
+        return a / b
     }
+
+    func getRemainder(a: Double, b: Double) -> Double { // Double형으로 나머지를 계산 (Double형에서는 % 연산자 사용 불가능)
+        if b == 0 {
+            print("Error: 나머지 연산에서 0으로 나눌 수 없습니다.") // 예외 처리
+            return 0
+        }
+        return a.truncatingRemainder(dividingBy: b)
+    }  // truncatingRemainder 메서드로 Double 타입 나머지 연산 수행
 }
-// Calculator 클래스의 인스턴스 생성
-let calculator = Calculator()
 
-calculator.calculate(op: "+", firstNumber: 2, secondNumber: 5)
-calculator.calculate(op: "-", firstNumber: 10, secondNumber: 5)
-calculator.calculate(op: "*", firstNumber: 3, secondNumber: 6)
-calculator.calculate(op: "/", firstNumber: 8, secondNumber: 0) // 0 나누기 예외 처리 확인
-calculator.calculate(op: "%", firstNumber: 4, secondNumber: 0) // 0 나머지 연산 예외 처리 확인
-calculator.calculate(op: "ㅁ", firstNumber: 4, secondNumber: 2) // 잘못된 연산자 예외 처리 확인
+let caculate = Caculate()
 
-
-
+let getAddResult = caculate.getAdd(a: 2, b: 5)
+print("Add Result: \(getAddResult)")
+let getMinusResult = caculate.getMinus(a: 10, b: 5)
+print("Minus Result: \(getMinusResult)")
+let getMultiplyResult = caculate.getMultiply(a: 3, b: 6)
+print("Multiply Result: \(getMultiplyResult)")
+let getDivideResult = caculate.getDivide(a: 8, b: 0) // 0 나누기 예외 처리 확인
+print("Divide Result: \(getDivideResult)")
+let getRemainderResult = caculate.getRemainder(a: 4, b: 0) // 0 나머지 연산 예외 처리 확인
+print("Remainder Result: \(getRemainderResult)")
