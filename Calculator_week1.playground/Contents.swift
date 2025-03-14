@@ -19,24 +19,24 @@ class MultiplyOperation {
 }
 
 class DivideOperation {
-    func operate(a: Int, b: Int) -> Int? { // 옵셔널(Int?)을 반환하여 명확한 예외 처리
-        if (a == 0 && b == 0) || b == 0 {  // 예외 조건 확인 (0 나누기 불가능)
-            return nil   // 예외 발생 시 nil 반환 (명확한 예외 표현)
+    func operate(a: Int, b: Int) -> Int? {  // 옵셔널 타입(Int?)으로 반환, 명확한 예외 처리
+        guard !(a == 0 && b == 0) || b != 0 else { // guard 문법 사용하여 예외 조건 처리 (0으로 나누기 불가)
+            return nil // 예외 발생 시 nil 반환
         }
-        return a / b // 정상 연산 수행 후 반환
+        return a / b
     }
 }
 
 class RemainderOperation {
     func operate(a: Int, b: Int) -> Int? {
-        if (a == 0 && b == 0) || b == 0 {
+        guard !(a == 0 && b == 0) && b != 0 else {
             return nil
         }
         return a % b
     }
 }
-
-class Calculator {  // 각 연산 클래스의 인스턴스를 속성으로 생성하여 클래스 내부에서 사용
+// 최종적으로 연산 클래스를 합쳐서 사용하는 Calculator 클래스 정의
+class Calculator {
     let addOperation = AddOperation()
     let subtractOperation = SubtractOperation()
     let multiplyOperation = MultiplyOperation()
@@ -46,36 +46,35 @@ class Calculator {  // 각 연산 클래스의 인스턴스를 속성으로 생�
     func add(a: Int, b: Int) -> Int {
         return addOperation.operate(a: a, b: b)
     }
-
-    func minus(a: Int, b: Int) -> Int {
+    func subtract(a: Int, b: Int) -> Int {
         return subtractOperation.operate(a: a, b: b)
     }
-
     func multiply(a: Int, b: Int) -> Int {
         return multiplyOperation.operate(a: a, b: b)
     }
-
-    func divide(a: Int, b: Int) -> Int { // 옵셔널 바인딩을 사용한 명확한 예외 처리 방법
-        if let result = divideOperation.operate(a: a, b: b) {
-            return result
-        } else {
-            return 0 // 예외 발생 시 기본값 0 반환
-        }
-    }
-
-    func remainder(a: Int, b: Int) -> Int {
-        if let result = remainderOperation.operate(a: a, b: b) {
-            return result
-        } else {
+    func divide(a: Int, b: Int) -> Int { // 옵셔널 바인딩(guard let)을 통해 nil 체크
+        guard let result = divideOperation.operate(a: a, b: b) else {
             return 0
         }
+        return result
+    }
+    func remainder(a: Int, b: Int) -> Int {
+        guard let result = remainderOperation.operate(a: a, b: b) else {
+            return 0
+        }
+        return result
     }
 }
-
+// Calculator 클래스의 인스턴스를 생성하여 calculator라는 상수에 저장
 let calculator = Calculator()
 
-print("Add: \(calculator.add(a: 8, b: 2))")
-print("Minus: \(calculator.minus(a: 12, b: 2))")
-print("Multiply: \(calculator.multiply(a: 2, b: 5))")
-print("Divide: \(calculator.divide(a: 8, b: 0))")
-print("Remainder: \(calculator.remainder(a: 10, b: 5))")
+let addResult = calculator.add(a: 3, b: 4)
+print(addResult)
+let subtractResult = calculator.subtract(a: 3, b: 4)
+print(subtractResult)
+let multiplyResult = calculator.multiply(a: 3, b: 4)
+print(multiplyResult)
+let divideResult = calculator.divide(a: 0, b: 0)
+print(divideResult)
+let remainderResult = calculator.remainder(a: 3, b: 0)
+print(remainderResult)
